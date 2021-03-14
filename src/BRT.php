@@ -263,6 +263,8 @@ final class BRT implements BlockchainInterface {
       'value' => $tx['Amount'],
       'time' => $tx['date'] + static::EPOCH_OFFSET,
       'confirmations' => $ledger_index - $tx['ledger_index'],
+      'block' => $tx['ledger_index'],
+      'fee' => $tx['Fee'],
       'from' => [$tx['Account']],
       'to' => [
         [
