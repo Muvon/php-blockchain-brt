@@ -23,10 +23,10 @@
     "phpunit/phpunit": "^9"
   },
   "require": {
-    "muvon/kiss-request-trait": "0.1.0",
-    "muvon/kiss-blockchain": "0.1.0",
-    "brtnetwork/brt-keypairs": "1.0.1",
-    "brtnetwork/brt-lib": "1.0.1"
+    "muvon/kiss-request-trait": "^0.1.0",
+    "muvon/kiss-blockchain": "^0.1.1",
+    "brtnetwork/brt-keypairs": "^1.0.1",
+    "brtnetwork/brt-lib": "^1.0.1"
   },
   "autoload": {
     "psr-4": {
