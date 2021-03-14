@@ -1,5 +1,5 @@
 <?php
-namespace Muvon\KISS\Blockchain;
+namespace Muvon\Blockchain;
 use Muvon\KISS\BlockchainInterface;
 use Muvon\KISS\RequestTrait;
 use BRTNetwork\BRTKeypairs\BRTKeypairs;
