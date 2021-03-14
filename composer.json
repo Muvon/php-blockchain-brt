@@ -1,10 +1,12 @@
 {
-  "name": "muvon/kiss-blockchain-brt",
-  "description": "KISS implementation of blockchain interface for BRT",
+  "name": "muvon/blockchain-brt",
+  "description": "Implementation of kiss-blockchain interface for BRT network",
   "keywords": [
-    "kiss",
-    "blockchain",
+    "business-revenue-token",
     "brt",
+    "blockchain",
+    "token",
+    "coin",
     "rpc",
     "cryptocurrency"
   ],
@@ -28,7 +30,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Muvon\\KISS\\Blockchain\\": "src/"
+      "Muvon\\Blockchain\\": "src/"
     }
   }
 }

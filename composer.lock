@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e731bd77fde58cc116e8a054e00db539",
+    "content-hash": "a300e8f26a35cbc9b3c9f1022062eb44",
     "packages": [
         {
             "name": "brtnetwork/base-x",
