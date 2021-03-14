@@ -23,7 +23,7 @@
     "phpunit/phpunit": "^9"
   },
   "require": {
-    "muvon/kiss-request-trait": "dev-master",
+    "muvon/kiss-request-trait": "0.1.0",
     "muvon/kiss-blockchain": "dev-master",
     "brtnetwork/brt-keypairs": "1.0.0",
     "brtnetwork/brt-lib": "1.0.0"
