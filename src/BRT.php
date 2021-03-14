@@ -125,39 +125,26 @@ final class BRT implements BlockchainInterface {
         continue;
       }
 
-      $result[$tx['tx']['hash']] = $this->adaptTx($tx['tx'], $ledger_index);
+      $result[$tx['tx']['hash']] = $this->adaptTx($tx['tx'], $ledger_index, $address);
     }
     return [null, $result];
   }
 
   public function getAddressDepositMap(string $address, int $confirmations = 0, int $since_ts = 0): array {
-    $txs = $this->sendAPIRequest('account_tx', [
-      'account' => $address,
-      'binary' => false,
-      'forward' => false,
-      'limit' => 0
-    ]);
-    if (false === $txs || !$txs['transactions']) {
-      return ['e_request_failed', null];
-    }
-
-    [$err, $ledger_index] = $this->getBlockNumber();
+    [$err, $txs] = $this->getAddressTxs($address, $confirmations, $since_ts);
     if ($err) {
       return [$err, null];
     }
 
     $deposit_map = [];
-    // $max_index = sizeof($txs['transactions']) - 1;
-    foreach ($txs['transactions'] as $idx => $tx) {
-      // If this transaction is failed // skip
-      if ($tx['tx']['TransactionType'] !== 'Payment' || $tx['meta']['TransactionResult'] !== 'tesSUCCESS' || is_array($tx['tx']['Amount'])) {
+    foreach ($txs as $tx) {
+      if (gmp_cmp($tx['balance'], 0) <= 0) {
         continue;
       }
 
-      if ($tx['tx']['Destination'] === $address) {
-        $deposit_map[$tx['tx']['hash']] = $this->adaptTx($tx['tx'], $ledger_index);
-      }
+      $deposit_map[$tx['hash']] = $tx;
     }
+
     return [null, $deposit_map];
   }
 
@@ -257,7 +244,7 @@ final class BRT implements BlockchainInterface {
     return false;
   }
 
-  protected function adaptTx(array $tx, int $ledger_index): array{
+  protected function adaptTx(array $tx, int $ledger_index, string $address = null): array{
     return [
       'hash' => $tx['hash'],
       'value' => $tx['Amount'],
@@ -265,6 +252,8 @@ final class BRT implements BlockchainInterface {
       'confirmations' => $ledger_index - $tx['ledger_index'],
       'block' => $tx['ledger_index'],
       'fee' => $tx['Fee'],
+      'account' => $address ?: null,
+      'balance' => $tx['Account'] === $address ? gmp_sub(0, $tx['Amount']) : $tx['Amount'],
       'from' => [$tx['Account']],
       'to' => [
         [
