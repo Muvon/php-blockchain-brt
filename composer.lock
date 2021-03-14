@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "16abe3199633f92fe0dc58939a7973b8",
+    "content-hash": "076518de4266c5f57e4b8ae0066cd481",
     "packages": [
         {
             "name": "brtnetwork/base-x",
@@ -163,16 +163,16 @@
         },
         {
             "name": "brtnetwork/brt-keypairs",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BRTNetwork/php-brt-keypairs.git",
-                "reference": "755ff0420d115c3b9588364e4aff9fb068766b09"
+                "reference": "b9f4f3f3b84f16b4ccee4fef3c9f8f797ed96db2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BRTNetwork/php-brt-keypairs/zipball/755ff0420d115c3b9588364e4aff9fb068766b09",
-                "reference": "755ff0420d115c3b9588364e4aff9fb068766b09",
+                "url": "https://api.github.com/repos/BRTNetwork/php-brt-keypairs/zipball/b9f4f3f3b84f16b4ccee4fef3c9f8f797ed96db2",
+                "reference": "b9f4f3f3b84f16b4ccee4fef3c9f8f797ed96db2",
                 "shasum": ""
             },
             "require": {
@@ -209,27 +209,27 @@
                 "xrpl"
             ],
             "support": {
-                "source": "https://github.com/BRTNetwork/php-brt-keypairs/tree/1.0.0"
+                "source": "https://github.com/BRTNetwork/php-brt-keypairs/tree/1.0.1"
             },
-            "time": "2021-03-06T13:35:18+00:00"
+            "time": "2021-03-14T18:15:18+00:00"
         },
         {
             "name": "brtnetwork/brt-lib",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BRTNetwork/php-brt-lib.git",
-                "reference": "e9415e2987de4a64b72f9161ebd5a60a9a127234"
+                "reference": "a89a1ebba2068296c833130c82ccdd5c5d1768f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BRTNetwork/php-brt-lib/zipball/e9415e2987de4a64b72f9161ebd5a60a9a127234",
-                "reference": "e9415e2987de4a64b72f9161ebd5a60a9a127234",
+                "url": "https://api.github.com/repos/BRTNetwork/php-brt-lib/zipball/a89a1ebba2068296c833130c82ccdd5c5d1768f3",
+                "reference": "a89a1ebba2068296c833130c82ccdd5c5d1768f3",
                 "shasum": ""
             },
             "require": {
                 "brtnetwork/brt-binary-codec": "^v1.0",
-                "brtnetwork/brt-keypairs": "^v1.0",
+                "brtnetwork/brt-keypairs": "1.0.1",
                 "guzzlehttp/guzzle": "^7.2",
                 "php": ">7"
             },
@@ -257,9 +257,9 @@
                 "brt-ledger"
             ],
             "support": {
-                "source": "https://github.com/BRTNetwork/php-brt-lib/tree/1.0.0"
+                "source": "https://github.com/BRTNetwork/php-brt-lib/tree/1.0.1"
             },
-            "time": "2021-03-12T13:37:42+00:00"
+            "time": "2021-03-14T18:23:01+00:00"
         },
         {
             "name": "brtnetwork/buffer",
