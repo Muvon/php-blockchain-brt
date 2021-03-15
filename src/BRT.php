@@ -1,12 +1,12 @@
 <?php
 namespace Muvon\Blockchain;
-use Muvon\KISS\BlockchainInterface;
+use Muvon\KISS\BlockchainClient;
 use Muvon\KISS\RequestTrait;
 use BRTNetwork\BRTKeypairs\BRTKeypairs;
 use BRTNetwork\BRTAddressCodec\BRTAddressCodec;
 use BRTNetwork\BRTLib\Transaction\Sign;
 
-final class BRT implements BlockchainInterface {
+final class BRT extends BlockchainClient {
   use RequestTrait;
   const EPOCH_OFFSET = 1614556800;
 
@@ -67,10 +67,6 @@ final class BRT implements BlockchainInterface {
     return [null, $result];
   }
 
-  public function getLastBlock(): array {
-    return $this->getBlock('closed');
-  }
-
   public function getTx(string $tx): array {
     $result = $this->sendAPIRequest('tx', [
       'transaction' => $tx,
@@ -128,24 +124,6 @@ final class BRT implements BlockchainInterface {
       $result[$tx['tx']['hash']] = $this->adaptTx($tx['tx'], $ledger_index, $address);
     }
     return [null, $result];
-  }
-
-  public function getAddressDepositMap(string $address, int $confirmations = 0, int $since_ts = 0): array {
-    [$err, $txs] = $this->getAddressTxs($address, $confirmations, $since_ts);
-    if ($err) {
-      return [$err, null];
-    }
-
-    $deposit_map = [];
-    foreach ($txs as $tx) {
-      if (gmp_cmp($tx['balance'], 0) <= 0) {
-        continue;
-      }
-
-      $deposit_map[$tx['hash']] = $tx;
-    }
-
-    return [null, $deposit_map];
   }
 
   public function signTx(array $inputs, array $outputs, int|string $fee = 0): array {
@@ -242,6 +220,10 @@ final class BRT implements BlockchainInterface {
 
   public function hasMultipleOutputs(): bool {
     return false;
+  }
+
+  public function getConfirmations(): int {
+    return 1;
   }
 
   protected function adaptTx(array $tx, int $ledger_index, string $address = null): array{
