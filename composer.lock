@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8cc17609204527b93ea1dc0262c9c30",
+    "content-hash": "baa01cce9dace2e49e562a30b648f089",
     "packages": [
         {
             "name": "brtnetwork/base-x",
@@ -542,16 +542,16 @@
         },
         {
             "name": "muvon/kiss-blockchain",
-            "version": "0.1.1",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Muvon/php-kiss-blockchain.git",
-                "reference": "c5dec87f4d36517a34c1ee14d419edc64d13422f"
+                "reference": "c2c17818d577cde190f06bcfe0975c88d0efb8f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Muvon/php-kiss-blockchain/zipball/c5dec87f4d36517a34c1ee14d419edc64d13422f",
-                "reference": "c5dec87f4d36517a34c1ee14d419edc64d13422f",
+                "url": "https://api.github.com/repos/Muvon/php-kiss-blockchain/zipball/c2c17818d577cde190f06bcfe0975c88d0efb8f6",
+                "reference": "c2c17818d577cde190f06bcfe0975c88d0efb8f6",
                 "shasum": ""
             },
             "require-dev": {
@@ -591,9 +591,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Muvon/php-kiss-blockchain/issues",
-                "source": "https://github.com/Muvon/php-kiss-blockchain/tree/0.1.1"
+                "source": "https://github.com/Muvon/php-kiss-blockchain/tree/0.2.0"
             },
-            "time": "2021-03-14T15:31:21+00:00"
+            "time": "2021-03-15T06:11:12+00:00"
         },
         {
             "name": "muvon/kiss-request-trait",
