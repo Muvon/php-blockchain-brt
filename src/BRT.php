@@ -61,10 +61,24 @@ final class BRT extends BlockchainClient {
       'time' => $ledger['ledger']['close_time'] + static::EPOCH_OFFSET,
       'txs' => $ledger['ledger']['transactions'],
       'confirmations' => $current_index - $ledger['ledger_index'],
-      'total_supply' => $ledger['ledger']['total_coins'],
     ];
 
     return [null, $result];
+  }
+
+  public function getTotalSupply(): string {
+    $ledger = $this->sendAPIRequest('ledger', [
+      'ledger_index' => 'closed',
+      'accounts' => false,
+      'transactions' => false,
+      'expand' => false,
+    ]);
+
+    if (false === $ledger) {
+      return ['e_request_failed', null];
+    }
+
+    return strval($ledger['ledger']['total_coins']);
   }
 
   public function getTx(string $tx): array {
