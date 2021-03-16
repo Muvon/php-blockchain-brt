@@ -140,7 +140,7 @@ final class BRT extends BlockchainClient {
       "TransactionType" => "Payment",
       "Account" => $inputs[0]['address'],
       "Destination" => $outputs[0]['address'],
-      "Amount" => $outputs[0]['amount'],
+      "Amount" => $outputs[0]['value'],
       "Fee" => $fee,
       "Sequence" => $sequence
     ];
