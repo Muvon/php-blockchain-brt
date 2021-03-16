@@ -59,7 +59,7 @@ final class BRT extends BlockchainClient {
       'block' => $ledger['ledger_index'],
       'hash' => $ledger['ledger']['hash'],
       'time' => $ledger['ledger']['close_time'] + static::EPOCH_OFFSET,
-      'txs' => $ledger['ledger']['transactions'],
+      'txs' => array_column($ledger['ledger']['transactions'], 'hash'),
       'confirmations' => $current_index - $ledger['ledger_index'],
     ];
 
@@ -118,7 +118,7 @@ final class BRT extends BlockchainClient {
       'forward' => false,
       'limit' => 0
     ]);
-    if (false === $txs || !$txs['transactions']) {
+    if (false === $txs) {
       return ['e_request_failed', null];
     }
 
