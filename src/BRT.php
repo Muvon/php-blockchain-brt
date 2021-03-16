@@ -204,7 +204,11 @@ final class BRT extends BlockchainClient {
   }
 
   public function getNetworkFee(): array {
-    return [null, 1];
+    $result = $this->sendAPIRequest('fee', [], 'POST');
+    if (false === $result) {
+      return ['e_request_failed', null];
+    }
+    return [null, $result['drops']['minimum_fee']];
   }
 
   protected function sendAPIRequest(string $path, array $payload = []) {
