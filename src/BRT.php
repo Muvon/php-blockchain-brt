@@ -206,11 +206,12 @@ final class BRT extends BlockchainClient {
   }
 
   public function getBlockNumber(): array {
-    $ledger = $this->sendAPIRequest('ledger_current', [], 'POST');
+    $ledger = $this->sendAPIRequest('ledger_closed', [], 'POST');
     if (false === $ledger) {
       return ['e_request_failed', null];
     }
-    return [null, $ledger['ledger_current_index']];
+
+    return [null, $ledger['ledger_index']];
   }
 
   public function getNetworkFee(): array {
