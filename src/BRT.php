@@ -64,8 +64,10 @@ final class BRT extends BlockchainClient {
       'hash' => $ledger['ledger_hash'],
       'time' => $ledger['ledger']['close_time'] + static::EPOCH_OFFSET,
       'txs' => $expand
-        ? array_map(function ($tx) use ($ledger_index) {
-          return $this->adaptTx($tx, $ledger_index);
+        ? array_map(function ($tx) use ($ledger, $ledger_index) {
+          $tx['ledger_index'] = $ledger_index;
+          $tx['date'] = $ledger['ledger']['close_time'];
+          return $this->adaptTx($tx, $ledger['ledger_index']);
         }, $ledger['ledger']['transactions'])
         : $ledger['ledger']['transactions'],
       'confirmations' => $current_index - $ledger['ledger_index'],
