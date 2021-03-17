@@ -24,7 +24,7 @@
   },
   "require": {
     "muvon/kiss-request-trait": "^0.1.0",
-    "muvon/kiss-blockchain": "^0.2.0",
+    "muvon/kiss-blockchain": "^0.3.0",
     "brtnetwork/brt-keypairs": "^1.0.2",
     "brtnetwork/brt-lib": "1.0.2"
   },
