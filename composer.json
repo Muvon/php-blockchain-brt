@@ -23,7 +23,7 @@
     "phpunit/phpunit": "^10"
   },
   "require": {
-    "muvon/kiss-json-rpc": "^0.2.1",
+    "muvon/kiss-json-rpc": "^0.2.3",
     "muvon/kiss-blockchain": "^0.3.0",
     "brtnetwork/brt-keypairs": "^1.0.2",
     "brtnetwork/brt-lib": "^1.0.2"
