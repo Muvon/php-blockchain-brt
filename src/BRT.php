@@ -94,7 +94,7 @@ final class BRT extends BlockchainClient {
     ]);
 
     if ($err) {
-      return [$err, null];
+      return '0';
     }
 
     return strval($ledger['ledger']['total_coins']);
