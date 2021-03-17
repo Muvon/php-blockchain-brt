@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e9eb677715b9bd89f6ab7761da372f8a",
+    "content-hash": "2e444b6db4e04c7ee9b23ff350e3004a",
     "packages": [
         {
             "name": "brtnetwork/base-x",
@@ -598,16 +598,16 @@
         },
         {
             "name": "muvon/kiss-json-rpc",
-            "version": "0.2.0",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Muvon/php-kiss-json-rpc.git",
-                "reference": "f9cd26bee61c4e8bc4e87d2f4897ee37c6e63bfc"
+                "reference": "63ba50e6cea6ccc3495a9ff5a75a6c6319660f43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Muvon/php-kiss-json-rpc/zipball/f9cd26bee61c4e8bc4e87d2f4897ee37c6e63bfc",
-                "reference": "f9cd26bee61c4e8bc4e87d2f4897ee37c6e63bfc",
+                "url": "https://api.github.com/repos/Muvon/php-kiss-json-rpc/zipball/63ba50e6cea6ccc3495a9ff5a75a6c6319660f43",
+                "reference": "63ba50e6cea6ccc3495a9ff5a75a6c6319660f43",
                 "shasum": ""
             },
             "require": {
@@ -643,9 +643,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Muvon/php-kiss-json-rpc/issues",
-                "source": "https://github.com/Muvon/php-kiss-json-rpc/tree/0.2.0"
+                "source": "https://github.com/Muvon/php-kiss-json-rpc/tree/0.2.1"
             },
-            "time": "2021-03-17T16:30:22+00:00"
+            "time": "2021-03-17T17:04:13+00:00"
         },
         {
             "name": "muvon/kiss-request-trait",
