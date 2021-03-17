@@ -38,12 +38,12 @@ final class BRT extends BlockchainClient {
     return $Codec->isValidClassicAddress($address);
   }
 
-  public function getBlock(int|string $ledger_index): array {
+  public function getBlock(int|string $ledger_index, bool $expand = false): array {
     $ledger = $this->sendAPIRequest('ledger', [
       'ledger_index' => $ledger_index,
       'accounts' => false,
       'transactions' => true,
-      'expand' => false,
+      'expand' => $expand,
     ]);
 
     if (false === $ledger) {
@@ -59,7 +59,9 @@ final class BRT extends BlockchainClient {
       'block' => $ledger['ledger_index'],
       'hash' => $ledger['ledger']['hash'],
       'time' => $ledger['ledger']['close_time'] + static::EPOCH_OFFSET,
-      'txs' => $ledger['ledger']['transactions'],
+      'txs' => $expand
+        ? array_map([$this, 'adaptTx'], $ledger['ledger']['transactions'])
+        : $ledger['ledger']['transactions'],
       'confirmations' => $current_index - $ledger['ledger_index'],
     ];
 
