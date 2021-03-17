@@ -64,11 +64,12 @@ final class BRT extends BlockchainClient {
       'hash' => $ledger['ledger_hash'],
       'time' => $ledger['ledger']['close_time'] + static::EPOCH_OFFSET,
       'txs' => $expand
-        ? array_map(function ($tx) use ($ledger, $ledger_index) {
+        ? array_filter(array_map(function ($tx) use ($ledger, $ledger_index) {
           $tx['ledger_index'] = $ledger_index;
           $tx['date'] = $ledger['ledger']['close_time'];
+          $tx['meta'] = &$tx['metaData'];
           return $this->adaptTx($tx, $ledger['ledger_index']);
-        }, $ledger['ledger']['transactions'])
+        }, $ledger['ledger']['transactions']))
         : $ledger['ledger']['transactions'],
       'confirmations' => $current_index - $ledger['ledger_index'],
     ];
@@ -144,12 +145,11 @@ final class BRT extends BlockchainClient {
     $result = [];
     // $max_index = sizeof($txs['transactions']) - 1;
     foreach ($txs['transactions'] as $idx => $tx) {
-      // If this transaction is failed // skip
-      if ($tx['tx']['TransactionType'] !== 'Payment' || $tx['meta']['TransactionResult'] !== 'tesSUCCESS' || is_array($tx['tx']['Amount'])) {
-        continue;
-      }
+      $adapted_tx = $this->adaptTx($tx['tx'], $ledger_index, $address);
 
-      $result[$tx['tx']['hash']] = $this->adaptTx($tx['tx'], $ledger_index, $address);
+      if ($adapted_tx) {
+        $result[$tx['tx']['hash']] = $adapted_tx;
+      }
     }
     return [null, $result];
   }
@@ -259,21 +259,26 @@ final class BRT extends BlockchainClient {
     return 1;
   }
 
-  protected function adaptTx(array $tx, int $ledger_index, string $address = null): array{
+  protected function adaptTx(array $tx, int $ledger_index, string $address = null): array|null {
+    // We adapt only payment txs and succeed
+    if ($tx['TransactionType'] !== 'Payment' || $tx['meta']['TransactionResult'] !== 'tesSUCCESS') {
+      return null;
+    }
+    $value = $tx['Amount'];
     return [
       'hash' => $tx['hash'],
-      'value' => $tx['Amount'],
+      'value' => $value,
       'time' => $tx['date'] + static::EPOCH_OFFSET,
       'confirmations' => $ledger_index - $tx['ledger_index'],
       'block' => $tx['ledger_index'],
       'fee' => $tx['Fee'],
       'account' => $address ?: null,
-      'balance' => $tx['Account'] === $address ? gmp_sub(0, $tx['Amount']) : $tx['Amount'],
+      'balance' => $tx['Account'] === $address ? gmp_sub(0, $value) : $value,
       'from' => [$tx['Account']],
       'to' => [
         [
           'address' => $tx['Destination'],
-          'value' => $tx['Amount'],
+          'value' => $value,
         ],
       ],
     ];
