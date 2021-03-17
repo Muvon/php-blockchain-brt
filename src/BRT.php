@@ -99,6 +99,10 @@ final class BRT extends BlockchainClient {
     return [null, $this->adaptTx($result, $ledger_index)];
   }
 
+  public function isTxValid(string $hash): bool {
+    return strtoupper($hash) === $hash && strlen($hash) === 64;
+  }
+
   public function getAddressBalance(string $address, int $confirmations = 0): array {
     $info = $this->sendAPIRequest('account_info', [
       'account' => $address
