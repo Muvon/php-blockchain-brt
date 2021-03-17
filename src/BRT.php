@@ -50,14 +50,18 @@ final class BRT extends BlockchainClient {
       return ['e_request_failed', null];
     }
 
+    if (!$ledger['ledger']['closed']) {
+      return ['e_block_not_found', null];
+    }
+
     [$err, $current_index] = $this->getBlockNumber();
     if ($err) {
       return [$err, null];
     }
 
     $result = [
-      'block' => $ledger['ledger_index'],
-      'hash' => $ledger['ledger']['hash'],
+      'block' => $ledger_index,
+      'hash' => $ledger['ledger_hash'],
       'time' => $ledger['ledger']['close_time'] + static::EPOCH_OFFSET,
       'txs' => $expand
         ? array_map([$this, 'adaptTx'], $ledger['ledger']['transactions'])
