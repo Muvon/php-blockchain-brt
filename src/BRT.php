@@ -1,16 +1,24 @@
 <?php
 namespace Muvon\Blockchain;
 use Muvon\KISS\BlockchainClient;
-use Muvon\KISS\RequestTrait;
+use Muvon\KISS\JsonRpc;
 use BRTNetwork\BRTKeypairs\BRTKeypairs;
 use BRTNetwork\BRTAddressCodec\BRTAddressCodec;
 use BRTNetwork\BRTLib\Transaction\Sign;
 
 final class BRT extends BlockchainClient {
-  use RequestTrait;
+  protected JsonRpc $Client;
   const EPOCH_OFFSET = 1614556800;
 
-  public function __construct(protected string $url, protected string $user = '', protected string $password = '') {}
+  public function __construct(protected string $url, protected string $user = '', protected string $password = '') {
+    $this->Client = JsonRpc::create($url, $user, $password)
+      ->setCheckResultFn(function (array $result) {
+        if (isset($result['error'])) {
+          return 'e_' . $result['error'];
+        }
+      })
+    ;
+  }
 
   /**
    * @return array ['address', 'private']
@@ -39,15 +47,15 @@ final class BRT extends BlockchainClient {
   }
 
   public function getBlock(int|string $ledger_index, bool $expand = false): array {
-    $ledger = $this->sendAPIRequest('ledger', [
+    [$err, $ledger] = $this->Client->ledger([
       'ledger_index' => $ledger_index,
       'accounts' => false,
       'transactions' => true,
       'expand' => $expand,
     ]);
 
-    if (false === $ledger) {
-      return ['e_request_failed', null];
+    if ($err) {
+      return [$err, null];
     }
 
     if (!$ledger['ledger']['closed']) {
@@ -78,33 +86,33 @@ final class BRT extends BlockchainClient {
   }
 
   public function getTotalSupply(): string {
-    $ledger = $this->sendAPIRequest('ledger', [
+    [$err, $ledger] = $this->Client->ledger([
       'ledger_index' => 'closed',
       'accounts' => false,
       'transactions' => false,
       'expand' => false,
     ]);
 
-    if (false === $ledger) {
-      return ['e_request_failed', null];
+    if ($err) {
+      return [$err, null];
     }
 
     return strval($ledger['ledger']['total_coins']);
   }
 
   public function getTx(string $tx): array {
-    $result = $this->sendAPIRequest('tx', [
+    [$err, $result] = $this->Client->tx([
       'transaction' => $tx,
       'binary' => false,
     ]);
 
-    if (false === $result) {
-      return ['e_request_failed', null];
+    if ($err) {
+      return [$err, null];
     }
 
     [$err, $ledger_index] = $this->getBlockNumber();
     if ($err) {
-      return ['e_request_failed', null];
+      return [$err, null];
     }
 
     return [null, $this->adaptTx($result, $ledger_index)];
@@ -115,26 +123,27 @@ final class BRT extends BlockchainClient {
   }
 
   public function getAddressBalance(string $address, int $confirmations = 0): array {
-    $info = $this->sendAPIRequest('account_info', [
+    [$err, $info] = $this->Client->account_info([
       'account' => $address
     ]);
 
-    if (false === $info) {
-      return ['e_request_failed', null];
+    if ($err) {
+      return [$err, null];
     }
 
     return [null, $info['account_data']['Balance']];
   }
 
   public function getAddressTxs(string $address, int $confirmations = 0, int $since_ts = 0): array {
-    $txs = $this->sendAPIRequest('account_tx', [
+    [$err, $txs] = $this->Client->account_tx([
       'account' => $address,
       'binary' => false,
       'forward' => false,
       'limit' => 0
     ]);
-    if (false === $txs) {
-      return ['e_request_failed', null];
+
+    if ($err) {
+      return [$err, null];
     }
 
     [$err, $ledger_index] = $this->getBlockNumber();
@@ -157,9 +166,9 @@ final class BRT extends BlockchainClient {
   public function signTx(array $inputs, array $outputs, int|string $fee = 0): array {
     assert(isset($inputs[0]['secret']['seed']));
     assert(isset($inputs[0]['address']));
-    $account_info = $this->sendAPIRequest('account_info', ['account' => $inputs[0]['address']]);
-    if (false === $account_info || !isset($account_info['account_data'])) {
-      return ['e_sequence_undefined', null];
+    [$err, $account_info] = $this->Client->account_info(['account' => $inputs[0]['address']]);
+    if ($err) {
+      return [$err, null];
     }
     $seed = $inputs[0]['secret']['seed'];
     $sequence = $account_info['account_data']['Sequence'];
@@ -182,9 +191,9 @@ final class BRT extends BlockchainClient {
   }
 
   public function submitTx(array $tx): array {
-    $result = $this->sendAPIRequest('submit', ['tx_blob' => $tx['raw']]);
+    [$err, $result] = $this->Client->submit(['tx_blob' => $tx['raw']]);
 
-    if (false === $result || !$result['applied']) {
+    if ($err || !$result['applied']) {
       if ($result['engine_result'] === 'temBAD_SIGNATURE' || $result['engine_result'] === 'tefBAD_AUTH_MASTER') {
         return ['e_bad_signature', $tx['id']];
       }
@@ -210,45 +219,20 @@ final class BRT extends BlockchainClient {
   }
 
   public function getBlockNumber(): array {
-    $ledger = $this->sendAPIRequest('ledger_closed', [], 'POST');
-    if (false === $ledger) {
-      return ['e_request_failed', null];
+    [$err, $ledger] = $this->Client->ledger_closed();
+    if ($err) {
+      return [$err, null];
     }
 
     return [null, $ledger['ledger_index']];
   }
 
   public function getNetworkFee(): array {
-    $result = $this->sendAPIRequest('fee', [], 'POST');
-    if (false === $result) {
-      return ['e_request_failed', null];
+    [$err, $result] = $this->Client->fee();
+    if ($err) {
+      return [$err, null];
     }
     return [null, $result['drops']['minimum_fee']];
-  }
-
-  protected function sendAPIRequest(string $path, array $payload = []) {
-    if ($this->user && $this->password) {
-      $payload['username'] = $this->user;
-      $payload['password'] = $this->password;
-    }
-    list($req_err, $response) = $this->request(
-      $this->url,
-      [
-        'method' => $path,
-        'params' => $payload ? [$payload] : null
-      ],
-      'POST'
-    );
-    if ($req_err) {
-      return false;
-    }
-
-    $result = $response['result'];
-    if ($result['status'] === 'error') {
-      return false;
-    }
-
-    return $result;
   }
 
   public function hasMultipleOutputs(): bool {
