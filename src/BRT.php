@@ -75,7 +75,7 @@ final class BRT extends BlockchainClient {
         ? array_filter(array_map(function ($tx) use ($ledger, $ledger_index) {
           $tx['ledger_index'] = $ledger_index;
           $tx['date'] = $ledger['ledger']['close_time'];
-          $tx['meta'] = &$tx['metaData'];
+          $tx['TransactionResult'] = $tx['metaData']['TransactionResult'];
           return $this->adaptTx($tx, $ledger['ledger_index']);
         }, $ledger['ledger']['transactions']))
         : $ledger['ledger']['transactions'],
@@ -114,7 +114,7 @@ final class BRT extends BlockchainClient {
     if ($err) {
       return [$err, null];
     }
-
+    $result['TransactionResult'] = $result['meta']['TransactionResult'];
     return [null, $this->adaptTx($result, $ledger_index)];
   }
 
@@ -154,6 +154,7 @@ final class BRT extends BlockchainClient {
     $result = [];
     // $max_index = sizeof($txs['transactions']) - 1;
     foreach ($txs['transactions'] as $idx => $tx) {
+      $tx['tx']['TransactionResult'] = $tx['meta']['TransactionResult'];
       $adapted_tx = $this->adaptTx($tx['tx'], $ledger_index, $address);
 
       if ($adapted_tx) {
@@ -186,7 +187,7 @@ final class BRT extends BlockchainClient {
     $tx_signed = $Sign->sign($tx_json, $seed);
     return [null, [
       'raw' => $tx_signed['signedTransaction'],
-      'id' => $tx_signed['id'],
+      'hash' => $tx_signed['id'],
     ]];
   }
 
@@ -245,7 +246,7 @@ final class BRT extends BlockchainClient {
 
   protected function adaptTx(array $tx, int $ledger_index, string $address = null): array|null {
     // We adapt only payment txs and succeed
-    if ($tx['TransactionType'] !== 'Payment' || $tx['meta']['TransactionResult'] !== 'tesSUCCESS') {
+    if ($tx['TransactionType'] !== 'Payment' || $tx['TransactionResult'] !== 'tesSUCCESS') {
       return null;
     }
     $value = $tx['Amount'];
