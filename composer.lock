@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fc4d9c05b43aade9a343d9a42c0d2816",
+    "content-hash": "da18ffec28a1a773193c58d61c37f412",
     "packages": [
         {
             "name": "brtnetwork/base-x",
@@ -215,21 +215,21 @@
         },
         {
             "name": "brtnetwork/brt-lib",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BRTNetwork/php-brt-lib.git",
-                "reference": "90bc12568c4b0f74209c57ff1b7929f307ab88df"
+                "reference": "e18e187bdd00ec81e3fbe9e4265cf9c8adc710be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BRTNetwork/php-brt-lib/zipball/90bc12568c4b0f74209c57ff1b7929f307ab88df",
-                "reference": "90bc12568c4b0f74209c57ff1b7929f307ab88df",
+                "url": "https://api.github.com/repos/BRTNetwork/php-brt-lib/zipball/e18e187bdd00ec81e3fbe9e4265cf9c8adc710be",
+                "reference": "e18e187bdd00ec81e3fbe9e4265cf9c8adc710be",
                 "shasum": ""
             },
             "require": {
                 "brtnetwork/brt-binary-codec": "^v1.0",
-                "brtnetwork/brt-keypairs": "1.0.2",
+                "brtnetwork/brt-keypairs": "^1.0.2",
                 "guzzlehttp/guzzle": "^7.2",
                 "php": ">7"
             },
@@ -257,9 +257,9 @@
                 "brt-ledger"
             ],
             "support": {
-                "source": "https://github.com/BRTNetwork/php-brt-lib/tree/1.0.2"
+                "source": "https://github.com/BRTNetwork/php-brt-lib/tree/1.0.3"
             },
-            "time": "2021-03-14T18:54:47+00:00"
+            "time": "2021-03-18T14:48:58+00:00"
         },
         {
             "name": "brtnetwork/buffer",
@@ -313,18 +313,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "01129f635f45659fd4764a533777d069a978bc9d"
+                "reference": "de6f1e58e735754b888649495ed4cb9ae3b19589"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/01129f635f45659fd4764a533777d069a978bc9d",
-                "reference": "01129f635f45659fd4764a533777d069a978bc9d",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/de6f1e58e735754b888649495ed4cb9ae3b19589",
+                "reference": "de6f1e58e735754b888649495ed4cb9ae3b19589",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "guzzlehttp/promises": "^1.4",
-                "guzzlehttp/psr7": "^1.7",
+                "guzzlehttp/psr7": "^1.7 || ^2.0",
                 "php": "^7.2.5 || ^8.0",
                 "psr/http-client": "^1.0"
             },
@@ -332,6 +332,7 @@
                 "psr/http-client-implementation": "1.0"
             },
             "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.4.1",
                 "ext-curl": "*",
                 "php-http/client-integration-tests": "^3.0",
                 "phpunit/phpunit": "^8.5.5 || ^9.3.5",
@@ -346,7 +347,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "7.3-dev"
+                    "dev-master": "7.4-dev"
                 }
             },
             "autoload": {
@@ -408,7 +409,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-15T07:56:29+00:00"
+            "time": "2021-03-23T14:07:59+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -468,46 +469,47 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "a67cdbf85690e54a7b92fe91c297b20d2607c0b2"
+                "reference": "c0dcda9f54d145bd4d062a6d15f54931a67732f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/a67cdbf85690e54a7b92fe91c297b20d2607c0b2",
-                "reference": "a67cdbf85690e54a7b92fe91c297b20d2607c0b2",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/c0dcda9f54d145bd4d062a6d15f54931a67732f9",
+                "reference": "c0dcda9f54d145bd4d062a6d15f54931a67732f9",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0",
-                "psr/http-message": "~1.0",
-                "ralouphie/getallheaders": "^2.0.5 || ^3.0.0"
+                "php": "^7.2.5 || ^8.0",
+                "psr/http-factory": "^1.0",
+                "psr/http-message": "^1.0",
+                "ralouphie/getallheaders": "^3.0"
             },
             "provide": {
+                "psr/http-factory-implementation": "1.0",
                 "psr/http-message-implementation": "1.0"
             },
             "require-dev": {
-                "ext-zlib": "*",
-                "phpunit/phpunit": "~4.8.36 || ^5.7.27 || ^6.5.14 || ^7.5.20 || ^8.5.8 || ^9.3.10"
+                "bamarni/composer-bin-plugin": "^1.4.1",
+                "http-interop/http-factory-tests": "^0.9",
+                "phpunit/phpunit": "^8.5.8 || ^9.3.10"
             },
             "suggest": {
                 "laminas/laminas-httphandlerrunner": "Emit PSR-7 responses"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.7-dev"
+                    "dev-master": "2.0-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
                     "GuzzleHttp\\Psr7\\": "src/"
-                },
-                "files": [
-                    "src/functions_include.php"
-                ]
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -522,6 +524,11 @@
                 {
                     "name": "Tobias Schultze",
                     "homepage": "https://github.com/Tobion"
+                },
+                {
+                    "name": "Márk Sági-Kazár",
+                    "email": "mark.sagikazar@gmail.com",
+                    "homepage": "https://sagikazarmark.hu"
                 }
             ],
             "description": "PSR-7 message implementation that also provides common utility methods",
@@ -537,9 +544,9 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/1.x"
+                "source": "https://github.com/guzzle/psr7/tree/2.0.0-beta1"
             },
-            "time": "2021-03-15T11:15:53+00:00"
+            "time": "2021-03-21T17:21:36+00:00"
         },
         {
             "name": "muvon/kiss-blockchain",
@@ -597,72 +604,21 @@
             "time": "2021-03-17T10:32:22+00:00"
         },
         {
-            "name": "muvon/kiss-json-rpc",
-            "version": "0.2.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Muvon/php-kiss-json-rpc.git",
-                "reference": "971870256f63f4e2068374c87222b9e18a4c862b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Muvon/php-kiss-json-rpc/zipball/971870256f63f4e2068374c87222b9e18a4c862b",
-                "reference": "971870256f63f4e2068374c87222b9e18a4c862b",
-                "shasum": ""
-            },
-            "require": {
-                "muvon/kiss-request-trait": "^0.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^10"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Muvon\\KISS\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Muvon Co. Ltd",
-                    "email": "contact@muvon.io"
-                }
-            ],
-            "description": "KISS implementation of JSON RPC client",
-            "keywords": [
-                "curl",
-                "http",
-                "json",
-                "json-rpc",
-                "request",
-                "rpc"
-            ],
-            "support": {
-                "issues": "https://github.com/Muvon/php-kiss-json-rpc/issues",
-                "source": "https://github.com/Muvon/php-kiss-json-rpc/tree/0.2.4"
-            },
-            "time": "2021-03-17T18:15:20+00:00"
-        },
-        {
             "name": "muvon/kiss-request-trait",
-            "version": "0.1.0",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Muvon/php-kiss-request-trait.git",
-                "reference": "c1bea19e93888c51ca8a7463563d1e17219c9dc4"
+                "reference": "b1de2c76072a37f2753c302ceb33792d37855286"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Muvon/php-kiss-request-trait/zipball/c1bea19e93888c51ca8a7463563d1e17219c9dc4",
-                "reference": "c1bea19e93888c51ca8a7463563d1e17219c9dc4",
+                "url": "https://api.github.com/repos/Muvon/php-kiss-request-trait/zipball/b1de2c76072a37f2753c302ceb33792d37855286",
+                "reference": "b1de2c76072a37f2753c302ceb33792d37855286",
                 "shasum": ""
             },
             "require-dev": {
-                "phpunit/phpunit": "^9"
+                "phpunit/phpunit": "^10"
             },
             "type": "library",
             "autoload": {
@@ -691,9 +647,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Muvon/php-kiss-request-trait/issues",
-                "source": "https://github.com/Muvon/php-kiss-request-trait/tree/0.1.0"
+                "source": "https://github.com/Muvon/php-kiss-request-trait/tree/0.4.0"
             },
-            "time": "2021-03-14T11:52:33+00:00"
+            "time": "2021-03-28T11:15:36+00:00"
         },
         {
             "name": "psr/http-client",
@@ -747,6 +703,62 @@
                 "source": "https://github.com/php-fig/http-client/tree/master"
             },
             "time": "2020-09-19T09:12:31+00:00"
+        },
+        {
+            "name": "psr/http-factory",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-factory.git",
+                "reference": "36fa03d50ff82abcae81860bdaf4ed9a1510c7cd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/36fa03d50ff82abcae81860bdaf4ed9a1510c7cd",
+                "reference": "36fa03d50ff82abcae81860bdaf4ed9a1510c7cd",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0",
+                "psr/http-message": "^1.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "https://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interfaces for PSR-7 HTTP message factories",
+            "keywords": [
+                "factory",
+                "http",
+                "message",
+                "psr",
+                "psr-17",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/http-factory/tree/master"
+            },
+            "time": "2020-09-17T16:52:55+00:00"
         },
         {
             "name": "psr/http-message",
@@ -1296,12 +1308,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "3f735da6b81a3e83f5dca9d97aa08f22729de68b"
+                "reference": "924f40e8c2fa2ba1a429cb31b5fe59895b483c6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/3f735da6b81a3e83f5dca9d97aa08f22729de68b",
-                "reference": "3f735da6b81a3e83f5dca9d97aa08f22729de68b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/924f40e8c2fa2ba1a429cb31b5fe59895b483c6c",
+                "reference": "924f40e8c2fa2ba1a429cb31b5fe59895b483c6c",
                 "shasum": ""
             },
             "require": {
@@ -1366,7 +1378,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-17T06:15:58+00:00"
+            "time": "2021-03-28T07:30:15+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1619,12 +1631,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "6ac039eb477cf97a12ae57ddc244f5122a185c98"
+                "reference": "ba878260cab5b7d11ad0e43ebc71500a0817df99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6ac039eb477cf97a12ae57ddc244f5122a185c98",
-                "reference": "6ac039eb477cf97a12ae57ddc244f5122a185c98",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ba878260cab5b7d11ad0e43ebc71500a0817df99",
+                "reference": "ba878260cab5b7d11ad0e43ebc71500a0817df99",
                 "shasum": ""
             },
             "require": {
@@ -1713,7 +1725,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-17T07:49:59+00:00"
+            "time": "2021-03-28T07:37:42+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -1778,12 +1790,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/code-unit.git",
-                "reference": "4dbfd02884566e3bbb6b142c7a126e46e4ab380f"
+                "reference": "cdf3ed08ff2cfe733b63a062a8aedf8b8aba29f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/code-unit/zipball/4dbfd02884566e3bbb6b142c7a126e46e4ab380f",
-                "reference": "4dbfd02884566e3bbb6b142c7a126e46e4ab380f",
+                "url": "https://api.github.com/repos/sebastianbergmann/code-unit/zipball/cdf3ed08ff2cfe733b63a062a8aedf8b8aba29f4",
+                "reference": "cdf3ed08ff2cfe733b63a062a8aedf8b8aba29f4",
                 "shasum": ""
             },
             "require": {
@@ -1827,7 +1839,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-17T06:16:08+00:00"
+            "time": "2021-03-28T07:31:56+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -1966,12 +1978,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/complexity.git",
-                "reference": "c5a7d4697e76369a18957e83d8e52568d5656627"
+                "reference": "13a5541d710b106133fb85c73e070b4f5a4370d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/complexity/zipball/c5a7d4697e76369a18957e83d8e52568d5656627",
-                "reference": "c5a7d4697e76369a18957e83d8e52568d5656627",
+                "url": "https://api.github.com/repos/sebastianbergmann/complexity/zipball/13a5541d710b106133fb85c73e070b4f5a4370d0",
+                "reference": "13a5541d710b106133fb85c73e070b4f5a4370d0",
                 "shasum": ""
             },
             "require": {
@@ -2016,7 +2028,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-17T06:18:07+00:00"
+            "time": "2021-03-28T07:32:17+00:00"
         },
         {
             "name": "sebastian/diff",
@@ -2298,12 +2310,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/lines-of-code.git",
-                "reference": "b80393a51d30c43760369ca8b3e6c03886a15fcd"
+                "reference": "8bce73d56088f98dd2a9da82d3de52c683fc7b0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/lines-of-code/zipball/b80393a51d30c43760369ca8b3e6c03886a15fcd",
-                "reference": "b80393a51d30c43760369ca8b3e6c03886a15fcd",
+                "url": "https://api.github.com/repos/sebastianbergmann/lines-of-code/zipball/8bce73d56088f98dd2a9da82d3de52c683fc7b0d",
+                "reference": "8bce73d56088f98dd2a9da82d3de52c683fc7b0d",
                 "shasum": ""
             },
             "require": {
@@ -2348,7 +2360,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-17T06:18:16+00:00"
+            "time": "2021-03-28T07:32:41+00:00"
         },
         {
             "name": "sebastian/object-enumerator",
@@ -2647,12 +2659,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/version.git",
-                "reference": "c4a4bb93c63e7449e849b1c80a7083fec21dbdc7"
+                "reference": "49701f70ea1c19671039b413f4c8a0ca75910da9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/version/zipball/c4a4bb93c63e7449e849b1c80a7083fec21dbdc7",
-                "reference": "c4a4bb93c63e7449e849b1c80a7083fec21dbdc7",
+                "url": "https://api.github.com/repos/sebastianbergmann/version/zipball/49701f70ea1c19671039b413f4c8a0ca75910da9",
+                "reference": "49701f70ea1c19671039b413f4c8a0ca75910da9",
                 "shasum": ""
             },
             "require": {
@@ -2693,7 +2705,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-02-16T12:52:59+00:00"
+            "time": "2021-03-28T07:33:01+00:00"
         },
         {
             "name": "theseer/tokenizer",

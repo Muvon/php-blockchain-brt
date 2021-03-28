@@ -1,23 +1,17 @@
 <?php
 namespace Muvon\Blockchain;
 use Muvon\KISS\BlockchainClient;
-use Muvon\KISS\JsonRpc;
+use Muvon\KISS\RequestTrait;
 use BRTNetwork\BRTKeypairs\BRTKeypairs;
 use BRTNetwork\BRTAddressCodec\BRTAddressCodec;
 use BRTNetwork\BRTLib\Transaction\Sign;
 
 final class BRT extends BlockchainClient {
-  protected JsonRpc $Client;
+  use RequestTrait;
   const EPOCH_OFFSET = 1614556800;
 
   public function __construct(protected string $url, protected string $user = '', protected string $password = '') {
-    $this->Client = JsonRpc::create($url, $user, $password)
-      ->setCheckResultFn(function (array $result) {
-        if (isset($result['error'])) {
-          return 'e_' . $result['error'];
-        }
-      })
-    ;
+    $this->request_type = 'json';
   }
 
   /**
@@ -47,7 +41,7 @@ final class BRT extends BlockchainClient {
   }
 
   public function getBlock(int|string $ledger_index, bool $expand = false): array {
-    [$err, $ledger] = $this->Client->ledger([
+    [$err, $ledger] = $this->call('ledger', [
       'ledger_index' => $ledger_index,
       'accounts' => false,
       'transactions' => true,
@@ -86,7 +80,7 @@ final class BRT extends BlockchainClient {
   }
 
   public function getTotalSupply(): string {
-    [$err, $ledger] = $this->Client->ledger([
+    [$err, $ledger] = $this->call('ledger', [
       'ledger_index' => 'closed',
       'accounts' => false,
       'transactions' => false,
@@ -101,7 +95,7 @@ final class BRT extends BlockchainClient {
   }
 
   public function getTx(string $tx): array {
-    [$err, $result] = $this->Client->tx([
+    [$err, $result] = $this->call('tx', [
       'transaction' => $tx,
       'binary' => false,
     ]);
@@ -123,7 +117,7 @@ final class BRT extends BlockchainClient {
   }
 
   public function getAddressBalance(string $address, int $confirmations = 0): array {
-    [$err, $info] = $this->Client->account_info([
+    [$err, $info] = $this->call('account_info', [
       'account' => $address
     ]);
 
@@ -135,7 +129,7 @@ final class BRT extends BlockchainClient {
   }
 
   public function getAddressTxs(string $address, int $confirmations = 0, int $since_ts = 0): array {
-    [$err, $txs] = $this->Client->account_tx([
+    [$err, $txs] = $this->call('account_tx', [
       'account' => $address,
       'binary' => false,
       'forward' => false,
@@ -167,7 +161,7 @@ final class BRT extends BlockchainClient {
   public function signTx(array $inputs, array $outputs, int|string $fee = 0): array {
     assert(isset($inputs[0]['secret']['seed']));
     assert(isset($inputs[0]['address']));
-    [$err, $account_info] = $this->Client->account_info(['account' => $inputs[0]['address']]);
+    [$err, $account_info] = $this->call('account_info', ['account' => $inputs[0]['address']]);
     if ($err) {
       return [$err, null];
     }
@@ -192,7 +186,7 @@ final class BRT extends BlockchainClient {
   }
 
   public function submitTx(array $tx): array {
-    [$err, $result] = $this->Client->submit(['tx_blob' => $tx['raw']]);
+    [$err, $result] = $this->call('submit', ['tx_blob' => $tx['raw']]);
 
     if ($err || !$result['applied']) {
       if ($result['engine_result'] === 'temBAD_SIGNATURE' || $result['engine_result'] === 'tefBAD_AUTH_MASTER') {
@@ -220,7 +214,7 @@ final class BRT extends BlockchainClient {
   }
 
   public function getBlockNumber(): array {
-    [$err, $ledger] = $this->Client->ledger_closed();
+    [$err, $ledger] = $this->call('ledger_closed');
     if ($err) {
       return [$err, null];
     }
@@ -229,7 +223,7 @@ final class BRT extends BlockchainClient {
   }
 
   public function getNetworkFee(): array {
-    [$err, $result] = $this->Client->fee();
+    [$err, $result] = $this->call('fee');
     if ($err) {
       return [$err, null];
     }
@@ -267,5 +261,34 @@ final class BRT extends BlockchainClient {
         ],
       ],
     ];
+  }
+
+  protected function call(string $method, array $params = []) {
+    $headers = [];
+    if ($this->user) {
+      $headers[] = 'Authorization: Basic ' . base64_encode($this->user . ':' . $this->password);
+    }
+    $payload = [
+      'jsonrpc' => '2.0',
+      'id' => microtime(true) * 1000000,
+      'method' => $method,
+      'params' => $params ?: null,
+    ];
+
+    [$err, $response] = $this->request($method, $params, 'POST', $headers);
+    if ($err) {
+      return [$err, $response];
+    }
+
+    if (!isset($response['result'])) {
+      return ['e_no_result', null];
+    }
+
+    $result = &$response['result'];
+    if (isset($result['error'])) {
+      return ['e_response_error', $result['error']];
+    }
+
+    return [null, $result];
   }
 }
